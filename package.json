@@ -1,0 +1,23 @@
+{
+  "name": "sketchbook",
+  "version": "1.0.0",
+  "description": "My p5.js sketchbook",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^2.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jdormit/sketchbook.git"
+  },
+  "author": "Jeremy Dormitzer <jeremy.dormitzer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jdormit/sketchbook/issues"
+  },
+  "homepage": "https://github.com/jdormit/sketchbook#readme"
+}

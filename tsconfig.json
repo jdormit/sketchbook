@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "outDir": "public/js/compiled",
+        "target": "es5",
+        "strictNullChecks": true,
+        "module": "AMD",
+        "moduleResolution": "Node"
+    },
+    "include": [ "src/**/*" ]
+}

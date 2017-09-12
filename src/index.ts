@@ -10,7 +10,7 @@ const sketches : Sketch[] = [
 define(require => {
     const p5 = require("./lib/p5");
 
-    const hydrateTitleSelector = function($titleSelector: HTMLSelectElement, sketches: Sketch[]) : HTMLSelectElement {
+    const initTitleSelector = function($titleSelector: HTMLSelectElement, sketches: Sketch[]) : HTMLSelectElement {
         $titleSelector.innerHTML = "";
         sketches.forEach(sketch => {
             const $option = new Option(sketch.title, sketch.module);
@@ -21,7 +21,7 @@ define(require => {
     }
 
     const $titleSelector : HTMLSelectElement = <HTMLSelectElement>document.getElementById('titleSelector');
-    hydrateTitleSelector($titleSelector, sketches);
+    initTitleSelector($titleSelector, sketches);
 
     const $selectedOption : HTMLOptionElement = $titleSelector.item($titleSelector.selectedIndex);
 

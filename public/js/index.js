@@ -3,7 +3,7 @@ var sketches = [
 ];
 define(function (require) {
     var p5 = require("./lib/p5");
-    var hydrateTitleSelector = function ($titleSelector, sketches) {
+    var initTitleSelector = function ($titleSelector, sketches) {
         $titleSelector.innerHTML = "";
         sketches.forEach(function (sketch) {
             var $option = new Option(sketch.title, sketch.module);
@@ -13,7 +13,7 @@ define(function (require) {
         return $titleSelector;
     };
     var $titleSelector = document.getElementById('titleSelector');
-    hydrateTitleSelector($titleSelector, sketches);
+    initTitleSelector($titleSelector, sketches);
     var $selectedOption = $titleSelector.item($titleSelector.selectedIndex);
     var sketchTitle = $selectedOption.title;
     var sketchModule = $selectedOption.value;

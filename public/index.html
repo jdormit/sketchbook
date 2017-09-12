@@ -5,7 +5,12 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
-        <script type="text/javascript" src="js/lib/p5.min.js"></script>
-        <script type="text/javascript" src="js/compiled/index.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <script type="text/javascript">
+         require.config({
+             baseUrl: "js"
+         });
+         require(["index"]);
+        </script>
     </body>
 </html>

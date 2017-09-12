@@ -11,6 +11,8 @@ declare function randomGaussian(mean?: number, stdDeviation?: number) : number;
 
 declare function radians(degrees: number) : number;
 
+declare function loadJSON(url: string, callback?: (data : any) => void);
+
 // Global variables
 declare const mouseIsPressed : boolean;
 declare const mouseX : number;

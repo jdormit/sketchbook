@@ -1,12 +1,11 @@
-define(["require", "exports", "../lib/p5"], function (require, exports, p5) {
+define(["require", "exports", "../lib/p5", "../toolbox/createMainCanvas"], function (require, exports, p5, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function splatter1(title) {
         return function (p) {
             var debounce = false;
             p.setup = function () {
-                var cvs = p.createCanvas(1024, 768);
-                cvs.elt.id = "mainCanvas";
+                createMainCanvas_1.default(p);
             };
             p.draw = function () {
                 if (p.mouseIsPressed && !debounce) {

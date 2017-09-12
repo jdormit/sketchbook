@@ -4,11 +4,15 @@ interface Sketch {
 }
 
 const sketches : Sketch[] = [
-    { title: "Splatter", module: "splatter1" }
+    { title: "Splatter", module: "splatter1" },
+    { title: "Circles", module: "randomCircles" }
 ];
 
 define(require => {
     const p5 = require("./lib/p5");
+
+    let sketchTitle;
+    let sketchModule;
 
     const initTitleSelector = function($titleSelector: HTMLSelectElement, sketches: Sketch[]) : HTMLSelectElement {
         $titleSelector.innerHTML = "";
@@ -17,18 +21,22 @@ define(require => {
             $titleSelector.add($option);
         });
         $titleSelector.item(0).selected = true;
+        $titleSelector.addEventListener('change', handleSelected);
         return $titleSelector;
+    }
+
+    const handleSelected = () => {
+        const $selectedOption : HTMLOptionElement = $titleSelector.item($titleSelector.selectedIndex);
+
+        sketchTitle = $selectedOption.title;
+        sketchModule = $selectedOption.value;
+
+        require(["./sketches/" + sketchModule], sketch => {
+            const myP5 = new p5(sketch.default(sketchTitle));
+        });
     }
 
     const $titleSelector : HTMLSelectElement = <HTMLSelectElement>document.getElementById('titleSelector');
     initTitleSelector($titleSelector, sketches);
-
-    const $selectedOption : HTMLOptionElement = $titleSelector.item($titleSelector.selectedIndex);
-
-    let sketchTitle = $selectedOption.title;
-    let sketchModule = $selectedOption.value;
-
-    require(["./sketches/" + sketchModule], sketch => {
-        const myP5 = new p5(sketch.default(sketchTitle));
-    });
+    handleSelected();
 });

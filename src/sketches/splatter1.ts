@@ -1,12 +1,12 @@
 import * as p5 from "../lib/p5";
+import createMainCanvas from '../toolbox/createMainCanvas';
 
 export default function splatter1(title: string) {
     return p => {
         let debounce = false;
 
         p.setup = function() {
-            const cvs = p.createCanvas(1024, 768);
-            cvs.elt.id = "mainCanvas";
+            createMainCanvas(p);
         }
 
         p.draw = function() {

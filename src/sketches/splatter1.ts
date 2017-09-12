@@ -1,7 +1,6 @@
 import * as p5 from "../lib/p5";
 
 export default function splatter1( p: any ) {
-    console.log(p);
     let debounce = false;
 
     p.setup = function() {

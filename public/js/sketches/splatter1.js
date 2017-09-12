@@ -2,7 +2,6 @@ define(["require", "exports", "../lib/p5"], function (require, exports, p5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function splatter1(p) {
-        console.log(p);
         var debounce = false;
         p.setup = function () {
             var cvs = p.createCanvas(1024, 768);

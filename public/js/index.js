@@ -14,7 +14,7 @@ define(function (require) {
             $titleSelector.add($option);
         });
         $titleSelector.item(0).selected = true;
-        $titleSelector.addEventListener('change', handleSelected);
+        $titleSelector.addEventListener("change", handleSelected);
         return $titleSelector;
     };
     var handleSelected = function () {
@@ -25,7 +25,7 @@ define(function (require) {
             var myP5 = new p5(sketch.default(sketchTitle));
         });
     };
-    var $titleSelector = document.getElementById('titleSelector');
+    var $titleSelector = document.getElementById("titleSelector");
     initTitleSelector($titleSelector, sketches);
     handleSelected();
 });

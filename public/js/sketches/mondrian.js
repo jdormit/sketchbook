@@ -24,8 +24,12 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 if (!shouldSubdivide) {
                     return [rect];
                 }
-                var subdivisionType = p.random(['HORIZONTAL', 'VERTICAL', 'BOTH']);
-                if (subdivisionType === 'HORIZONTAL') {
+                var subdivisionType = p.random([
+                    "HORIZONTAL",
+                    "VERTICAL",
+                    "BOTH"
+                ]);
+                if (subdivisionType === "HORIZONTAL") {
                     var height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
                     if (height > rect.height) {
                         // If we get an invalid height, try again
@@ -33,7 +37,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                     }
                     return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
-                else if (subdivisionType === 'VERTICAL') {
+                else if (subdivisionType === "VERTICAL") {
                     var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
                     if (width > rect.width) {
                         // Try again
@@ -48,16 +52,19 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                         // Try again
                         return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance * SUBDIVISION_FACTOR)).concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR)).concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
+                    return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance * SUBDIVISION_FACTOR)
+                        .concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance * SUBDIVISION_FACTOR))
+                        .concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR))
+                        .concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
             };
             var colors = {};
             p.setup = function () {
-                colors.yellow = p.color('hsl(51, 78%, 68%)');
-                colors.red = p.color('hsl(3, 79%, 48%)');
-                colors.blue = p.color('hsl(205, 99%, 31%)');
-                colors.black = p.color('hsl(140, 60%, 6%)');
-                colors.white = p.color('hsl(60, 4%, 91%)');
+                colors.yellow = p.color("hsl(51, 78%, 68%)");
+                colors.red = p.color("hsl(3, 79%, 48%)");
+                colors.blue = p.color("hsl(205, 99%, 31%)");
+                colors.black = p.color("hsl(140, 60%, 6%)");
+                colors.white = p.color("hsl(60, 4%, 91%)");
                 createMainCanvas_1.default(p);
                 //            p.randomSeed(title);
                 p.noLoop();
@@ -67,7 +74,15 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 var rects = subdivideRect(createRect(0, 0, p.width, p.height), 1);
                 for (var _i = 0, rects_1 = rects; _i < rects_1.length; _i++) {
                     var rect = rects_1[_i];
-                    var color = p.random([colors.yellow, colors.red, colors.blue, colors.white, colors.white, colors.white, colors.white]);
+                    var color = p.random([
+                        colors.yellow,
+                        colors.red,
+                        colors.blue,
+                        colors.white,
+                        colors.white,
+                        colors.white,
+                        colors.white
+                    ]);
                     renderRect(rect, color, colors.black, 20, p);
                 }
             };

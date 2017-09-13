@@ -23,7 +23,7 @@ define(["require", "exports", "../lib/p5", "../toolbox/createMainCanvas"], funct
                             p.ellipse(x, y, size, size);
                         }
                     }
-                    setTimeout(function () { return debounce = false; }, 100);
+                    setTimeout(function () { return (debounce = false); }, 100);
                 }
             };
         };

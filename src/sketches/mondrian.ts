@@ -24,6 +24,15 @@ const createRect = (x: number, y: number, width: number, height: number) : Rect 
     return {x, y, width, height};
 }
 
+const renderRect = (rect: Rect, fillColor: any, borderColor: any, borderSize: number, p: any) => {
+    p.stroke(borderColor);
+    p.fill(borderColor);
+    p.rect(rect.x, rect.y, rect.width, rect.height);
+    p.stroke(fillColor);
+    p.fill(fillColor);
+    p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - (2 * borderSize), rect.height - (2 * borderSize));
+}
+
 export default (title: string) => {
     return p => {
         const subdivideRect = (rect: Rect, subdivisionChance: number) : Rect[] => {
@@ -60,7 +69,6 @@ export default (title: string) => {
             }
         }
 
-
         const colors: any = {};
         p.setup = () => {
             colors.yellow = p.color('hsl(51, 78%, 68%)');
@@ -76,9 +84,11 @@ export default (title: string) => {
         }
 
         p.draw = () => {
-            p.fill(colors.red);
-            p.stroke(colors.red);
-            p.rect(0, 0, 512, 512);
+            const rects = subdivideRect(createRect(0, 0, p.width, p.height), 2);
+            for (let rect of rects) {
+                const color = p.random([colors.yellow, colors.red, colors.blue, colors.white, colors.white, colors.white, colors.white]);
+                renderRect(rect, color, colors.black, 20, p);
+            }
         }
     }
 }

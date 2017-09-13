@@ -7,12 +7,14 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
         return { x: x, y: y, width: width, height: height };
     };
     var renderRect = function (rect, fillColor, borderColor, borderSize, p) {
-        p.stroke(borderColor);
-        p.fill(borderColor);
-        p.rect(rect.x, rect.y, rect.width, rect.height);
-        p.stroke(fillColor);
+        //    p.stroke(borderColor);
+        //    p.fill(borderColor);
+        //    p.rect(rect.x, rect.y, rect.width, rect.height);
+        //    p.stroke(fillColor);
+        //    p.fill(fillColor);
+        //    p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - (2 * borderSize), rect.height - (2 * borderSize));
         p.fill(fillColor);
-        p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - (2 * borderSize), rect.height - (2 * borderSize));
+        p.rect(rect.x, rect.y, rect.width, rect.height);
     };
     exports.default = function (title) {
         return function (p) {

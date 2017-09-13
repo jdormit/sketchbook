@@ -4,6 +4,7 @@ interface Sketch {
 }
 
 const sketches : Sketch[] = [
+    { title: "Mondrian I", module: "mondrian"},
     { title: "Splatter", module: "splatter1" },
     { title: "Circles", module: "randomCircles" }
 ];

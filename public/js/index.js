@@ -1,4 +1,5 @@
 var sketches = [
+    { title: "Mondrian I", module: "mondrian" },
     { title: "Splatter", module: "splatter1" },
     { title: "Circles", module: "randomCircles" }
 ];

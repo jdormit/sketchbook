@@ -54,7 +54,7 @@ const renderRect = (
     p.rect(rect.x, rect.y, rect.width, rect.height);
 };
 
-export default (title: string) => {
+export default (seed: string) => {
     return p => {
         const subdivideRect = (
             rect: Rect,
@@ -177,8 +177,9 @@ export default (title: string) => {
             colors.black = p.color("hsl(140, 60%, 6%)");
             colors.white = p.color("hsl(60, 4%, 91%)");
 
+            p.randomSeed(seed);
+            console.log("Seed: " + seed);
             createMainCanvas(p);
-            //            p.randomSeed(title);
             p.noLoop();
             p.background(colors.white);
         };

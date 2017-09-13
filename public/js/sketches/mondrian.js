@@ -16,7 +16,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
         p.fill(fillColor);
         p.rect(rect.x, rect.y, rect.width, rect.height);
     };
-    exports.default = function (title) {
+    exports.default = function (seed) {
         return function (p) {
             var subdivideRect = function (rect, subdivisionChance) {
                 var rand = p.random();
@@ -65,8 +65,9 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 colors.blue = p.color("hsl(205, 99%, 31%)");
                 colors.black = p.color("hsl(140, 60%, 6%)");
                 colors.white = p.color("hsl(60, 4%, 91%)");
+                p.randomSeed(seed);
+                console.log("Seed: " + seed);
                 createMainCanvas_1.default(p);
-                //            p.randomSeed(title);
                 p.noLoop();
                 p.background(colors.white);
             };

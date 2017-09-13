@@ -1,11 +1,12 @@
 import * as p5 from "../lib/p5";
 import createMainCanvas from "../toolbox/createMainCanvas";
 
-export default function splatter1(title: string) {
+export default function splatter1(seed: string) {
     return p => {
         let debounce = false;
 
         p.setup = function() {
+            p.randomSeed(seed);
             createMainCanvas(p);
         };
 

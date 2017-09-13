@@ -1,10 +1,10 @@
 import createMainCanvas from "../toolbox/createMainCanvas";
 
-export default function randomCircles(title: string) {
+export default function randomCircles(seed: string) {
     return p => {
         p.setup = () => {
             p.noLoop();
-            p.randomSeed(title);
+            p.randomSeed(seed);
             const cvs = createMainCanvas(p);
         };
 

@@ -1,10 +1,11 @@
 define(["require", "exports", "../lib/p5", "../toolbox/createMainCanvas"], function (require, exports, p5, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function splatter1(title) {
+    function splatter1(seed) {
         return function (p) {
             var debounce = false;
             p.setup = function () {
+                p.randomSeed(seed);
                 createMainCanvas_1.default(p);
             };
             p.draw = function () {

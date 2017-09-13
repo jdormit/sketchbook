@@ -1,12 +1,13 @@
 interface Sketch {
     title: string;
     module: string;
+    seed: string | number;
 }
 
 const sketches: Sketch[] = [
-    { title: "Mondrian I", module: "mondrian" },
-    { title: "Splatter", module: "splatter1" },
-    { title: "Circles", module: "randomCircles" }
+    { title: "Mondrian I", module: "mondrian", seed: Date.now() },
+    { title: "Splatter", module: "splatter1", seed: Date.now() },
+    { title: "Circles", module: "randomCircles", seed: Date.now() }
 ];
 
 define(require => {
@@ -38,7 +39,7 @@ define(require => {
         sketchModule = $selectedOption.value;
 
         require(["./sketches/" + sketchModule], sketch => {
-            const myP5 = new p5(sketch.default(sketchTitle));
+            const myP5 = new p5(sketch.default(sketch.seed));
         });
     };
 

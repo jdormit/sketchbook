@@ -1,7 +1,7 @@
 var sketches = [
-    { title: "Mondrian I", module: "mondrian" },
-    { title: "Splatter", module: "splatter1" },
-    { title: "Circles", module: "randomCircles" }
+    { title: "Mondrian I", module: "mondrian", seed: Date.now() },
+    { title: "Splatter", module: "splatter1", seed: Date.now() },
+    { title: "Circles", module: "randomCircles", seed: Date.now() }
 ];
 define(function (require) {
     var p5 = require("./lib/p5");
@@ -22,7 +22,7 @@ define(function (require) {
         sketchTitle = $selectedOption.title;
         sketchModule = $selectedOption.value;
         require(["./sketches/" + sketchModule], function (sketch) {
-            var myP5 = new p5(sketch.default(sketchTitle));
+            var myP5 = new p5(sketch.default(sketch.seed));
         });
     };
     var $titleSelector = document.getElementById("titleSelector");

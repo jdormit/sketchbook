@@ -26,6 +26,7 @@ interface Rect {
 type SubdivisionType = 'HORIZONTAL' | 'VERTICAL' | 'BOTH';
 
 const MIN_SIZE = 30;
+const SUBDIVISION_FACTOR = 0.75;
 
 const createRect = (x: number, y: number, width: number, height: number) : Rect => {
     return {x, y, width, height};
@@ -55,16 +56,16 @@ export default (title: string) => {
                     // If we get an invalid height, try again
                     return subdivideRect(rect, subdivisionChance);
                 }
-                return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance / 2).concat(
-                       subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance / 2));
+                return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(
+                       subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
             } else if (subdivisionType === 'VERTICAL') {
                 const width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
                 if (width > rect.width) {
                     // Try again
                     return subdivideRect(rect, subdivisionChance);
                 }
-                return subdivideRect(createRect(rect.x, rect.y, width, rect.height), subdivisionChance / 2).concat(
-                       subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, rect.height), subdivisionChance / 2));
+                return subdivideRect(createRect(rect.x, rect.y, width, rect.height), subdivisionChance * SUBDIVISION_FACTOR).concat(
+                       subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, rect.height), subdivisionChance * SUBDIVISION_FACTOR));
             } else {
                 const width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
                 const height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
@@ -72,10 +73,10 @@ export default (title: string) => {
                     // Try again
                     return subdivideRect(rect, subdivisionChance);
                 }
-                return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance / 2).concat(
-                       subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance / 2)).concat(
-                       subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance / 2)).concat(
-                       subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance / 2));
+                return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(
+                       subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance * SUBDIVISION_FACTOR)).concat(
+                       subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR)).concat(
+                       subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
             }
         }
 
@@ -94,7 +95,7 @@ export default (title: string) => {
         }
 
         p.draw = () => {
-            const rects = subdivideRect(createRect(0, 0, p.width, p.height), 2);
+            const rects = subdivideRect(createRect(0, 0, p.width, p.height), 1);
             for (let rect of rects) {
                 const color = p.random([colors.yellow, colors.red, colors.blue, colors.white, colors.white, colors.white, colors.white]);
                 renderRect(rect, color, colors.black, 20, p);

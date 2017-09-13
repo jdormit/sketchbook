@@ -2,6 +2,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var MIN_SIZE = 30;
+    var SUBDIVISION_FACTOR = 0.75;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };
@@ -28,7 +29,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                         // If we get an invalid height, try again
                         return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
                 else if (subdivisionType === 'VERTICAL') {
                     var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
@@ -36,7 +37,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                         // Try again
                         return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, width, rect.height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, rect.height), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, width, rect.height), subdivisionChance * SUBDIVISION_FACTOR).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, rect.height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
                 else {
                     var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
@@ -45,7 +46,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                         // Try again
                         return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance / 2)).concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance / 2)).concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance * SUBDIVISION_FACTOR).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance * SUBDIVISION_FACTOR)).concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR)).concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
             };
             var colors = {};
@@ -61,7 +62,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 p.background(colors.white);
             };
             p.draw = function () {
-                var rects = subdivideRect(createRect(0, 0, p.width, p.height), 2);
+                var rects = subdivideRect(createRect(0, 0, p.width, p.height), 1);
                 for (var _i = 0, rects_1 = rects; _i < rects_1.length; _i++) {
                     var rect = rects_1[_i];
                     var color = p.random([colors.yellow, colors.red, colors.blue, colors.white, colors.white, colors.white, colors.white]);

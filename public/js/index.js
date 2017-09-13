@@ -19,10 +19,9 @@ define(function (require) {
     };
     var handleSelected = function () {
         var $selectedOption = $titleSelector.item($titleSelector.selectedIndex);
-        sketchTitle = $selectedOption.title;
-        sketchModule = $selectedOption.value;
-        require(["./sketches/" + sketchModule], function (sketch) {
-            var myP5 = new p5(sketch.default(sketch.seed));
+        var sketchData = sketches[$titleSelector.selectedIndex];
+        require(["./sketches/" + sketchData.module], function (sketch) {
+            var myP5 = new p5(sketch.default(sketchData.seed));
         });
     };
     var $titleSelector = document.getElementById("titleSelector");

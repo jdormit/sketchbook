@@ -35,11 +35,10 @@ define(require => {
             $titleSelector.selectedIndex
         );
 
-        sketchTitle = $selectedOption.title;
-        sketchModule = $selectedOption.value;
+        const sketchData = sketches[$titleSelector.selectedIndex];
 
-        require(["./sketches/" + sketchModule], sketch => {
-            const myP5 = new p5(sketch.default(sketch.seed));
+        require(["./sketches/" + sketchData.module], sketch => {
+            const myP5 = new p5(sketch.default(sketchData.seed));
         });
     };
 

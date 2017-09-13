@@ -5,16 +5,14 @@ export default function randomCircles(title: string) {
         p.setup = () => {
             p.noLoop();
             p.randomSeed(title);
-            p.noFill();
-            const cvs = createMainCanvas(p, 1024, 768);
+            const cvs = createMainCanvas(p);
         };
 
         p.draw = () => {
             for (let i = 0; i < 100; i++) {
-                p.ellipse(p.randomGaussian(0, p.width / 2),
-                          p.randomGaussian(0, p.height / 2),
-                          p.random(30, 80),
-                          p.random(30, 80)
+                p.ellipse(p.randomGaussian(p.width / 2, p.width / 4),
+                          p.randomGaussian(p.height / 2, p.height / 4),
+                          p.random(10, 40)
                          )
             }
         };

@@ -1,7 +1,7 @@
 define(["require", "exports", "../toolbox/createMainCanvas"], function (require, exports, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var SUBDIVIDE_SIZE_THRESHOLD = 25;
+    var MIN_SIZE = 30;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };
@@ -23,26 +23,29 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 }
                 var subdivisionType = p.random(['HORIZONTAL', 'VERTICAL', 'BOTH']);
                 if (subdivisionType === 'HORIZONTAL') {
-                    var y = p.random(rect.y, rect.y + rect.height);
-                    if (y - rect.y < SUBDIVIDE_SIZE_THRESHOLD) {
-                        return [rect];
+                    var height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
+                    if (height > rect.height) {
+                        // If we get an invalid height, try again
+                        return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, rect.width, y - rect.y), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x, y, rect.width, rect.height + rect.y - y), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, rect.width, height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x, rect.y + height, rect.width, rect.height - height), subdivisionChance / 2));
                 }
                 else if (subdivisionType === 'VERTICAL') {
-                    var x = p.random(rect.x, rect.x + rect.width);
-                    if (x - rect.x < SUBDIVIDE_SIZE_THRESHOLD) {
-                        return [rect];
+                    var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
+                    if (width > rect.width) {
+                        // Try again
+                        return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, x - rect.x, rect.height), subdivisionChance / 2).concat(subdivideRect(createRect(x, rect.y, rect.x + rect.width - x, rect.height), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, width, rect.height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, rect.height), subdivisionChance / 2));
                 }
                 else {
-                    var x = p.random(rect.x, rect.x + rect.width);
-                    var y = p.random(rect.y, rect.y + rect.height);
-                    if (x - rect.x < SUBDIVIDE_SIZE_THRESHOLD || y - rect.y < SUBDIVIDE_SIZE_THRESHOLD) {
-                        return [rect];
+                    var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
+                    var height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
+                    if (width > rect.width || height > rect.height) {
+                        // Try again
+                        return subdivideRect(rect, subdivisionChance);
                     }
-                    return subdivideRect(createRect(rect.x, rect.y, x - rect.x, y - rect.y), subdivisionChance / 2).concat(subdivideRect(createRect(x, rect.y, rect.x + rect.width - x, y - rect.y), subdivisionChance / 2)).concat(subdivideRect(createRect(rect.x, y, x - rect.x, rect.y + rect.height - y), subdivisionChance / 2)).concat(subdivideRect(createRect(x, y, rect.x + rect.width - x, rect.y + rect.height - y), subdivisionChance / 2));
+                    return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance / 2).concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance / 2)).concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance / 2)).concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance / 2));
                 }
             };
             var colors = {};

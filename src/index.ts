@@ -10,6 +10,16 @@ const sketches: Sketch[] = [
     { title: "Circles", module: "randomCircles", seed: Date.now() }
 ];
 
+const loadSketchWithSeed = function(seed: number | string) {
+    const $titleSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(
+        "titleSelector"
+    );
+    const sketchData = sketches[$titleSelector.selectedIndex];
+    require(["./lib/p5", "./sketches/" + sketchData.module], (p5, sketch) => {
+        new p5(sketch.default(seed));
+    });
+};
+
 define(require => {
     const p5 = require("./lib/p5");
 

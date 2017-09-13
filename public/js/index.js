@@ -3,6 +3,13 @@ var sketches = [
     { title: "Splatter", module: "splatter1", seed: Date.now() },
     { title: "Circles", module: "randomCircles", seed: Date.now() }
 ];
+var loadSketchWithSeed = function (seed) {
+    var $titleSelector = document.getElementById("titleSelector");
+    var sketchData = sketches[$titleSelector.selectedIndex];
+    require(["./lib/p5", "./sketches/" + sketchData.module], function (p5, sketch) {
+        new p5(sketch.default(seed));
+    });
+};
 define(function (require) {
     var p5 = require("./lib/p5");
     var sketchTitle;

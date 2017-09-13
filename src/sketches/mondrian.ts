@@ -7,6 +7,13 @@ import createMainCanvas from '../toolbox/createMainCanvas';
   finished, the rectangles get rendered. The rendering algorithm goes something like, choose either white (likely),
   red, blue, or yellow (much less likely). Render a black rectangle the full size of the rectangle, then a {color}
   rectangle x pixels smaller, where x is the desired border size.
+
+  TODO things to improve:
+  - Color picking: initially colors should be more likely to be white, with the chance for choosing a particular other
+  color increasing the longer that color is not picked
+  - Borders: make borders uniform, don't allow double borders
+  - Subdivision size: disallow tiny subdivided squares while maintaining a reasonable amount of subdivision. Maybe choosing
+  a new width / height for subdivisions on a guassian scale instead of choosing an x/y?
 */
 
 interface Rect {
@@ -18,7 +25,7 @@ interface Rect {
 
 type SubdivisionType = 'HORIZONTAL' | 'VERTICAL' | 'BOTH';
 
-const SUBDIVIDE_SIZE_THRESHOLD = 10;
+const SUBDIVIDE_SIZE_THRESHOLD = 25;
 
 const createRect = (x: number, y: number, width: number, height: number) : Rect => {
     return {x, y, width, height};

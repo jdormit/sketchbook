@@ -1,7 +1,7 @@
 define(["require", "exports", "../toolbox/createMainCanvas"], function (require, exports, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var SUBDIVIDE_SIZE_THRESHOLD = 10;
+    var SUBDIVIDE_SIZE_THRESHOLD = 25;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };

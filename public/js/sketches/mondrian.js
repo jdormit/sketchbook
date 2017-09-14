@@ -3,8 +3,8 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
     Object.defineProperty(exports, "__esModule", { value: true });
     var MIN_SIZE = 50;
     var SUBDIVISION_FACTOR = 0.75;
-    var BORDER_SIZE = 10;
-    var PERCENT_COLOR = 0.4;
+    var BORDER_FACTOR = 0.0035;
+    var PERCENT_COLOR = 0.2;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };
@@ -81,7 +81,8 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 p.background(colors.black);
             };
             p.draw = function () {
-                var rects = subdivideRect(createRect(BORDER_SIZE, BORDER_SIZE, p.width - BORDER_SIZE * 2, p.height - BORDER_SIZE * 2), 1);
+                var borderSize = p.displayWidth * BORDER_FACTOR;
+                var rects = subdivideRect(createRect(borderSize, borderSize, p.width - borderSize * 2, p.height - borderSize * 2), 1);
                 var numColored = Math.floor(rects.length * PERCENT_COLOR);
                 var colorIdxs = [];
                 while (numColored > 0) {
@@ -96,7 +97,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                     if (colorIdxs.indexOf(i) !== -1) {
                         color = p.random([colors.yellow, colors.blue, colors.red]);
                     }
-                    renderRect(rect, color, colors.black, BORDER_SIZE, p);
+                    renderRect(rect, color, colors.black, borderSize, p);
                 });
             };
         };

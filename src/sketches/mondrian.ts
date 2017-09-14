@@ -24,8 +24,8 @@ type SubdivisionType = "HORIZONTAL" | "VERTICAL" | "BOTH";
 
 const MIN_SIZE = 50;
 const SUBDIVISION_FACTOR = 0.75;
-const BORDER_SIZE = 10;
-const PERCENT_COLOR = 0.4;
+const BORDER_FACTOR = 0.0035;
+const PERCENT_COLOR = 0.2;
 
 const createRect = (
     x: number,
@@ -202,12 +202,13 @@ export default (seed: string) => {
         };
 
         p.draw = () => {
+            const borderSize = p.displayWidth * BORDER_FACTOR;
             const rects = subdivideRect(
                 createRect(
-                    BORDER_SIZE,
-                    BORDER_SIZE,
-                    p.width - BORDER_SIZE * 2,
-                    p.height - BORDER_SIZE * 2
+                    borderSize,
+                    borderSize,
+                    p.width - borderSize * 2,
+                    p.height - borderSize * 2
                 ),
                 1
             );
@@ -225,7 +226,7 @@ export default (seed: string) => {
                 if (colorIdxs.indexOf(i) !== -1) {
                     color = p.random([colors.yellow, colors.blue, colors.red]);
                 }
-                renderRect(rect, color, colors.black, BORDER_SIZE, p);
+                renderRect(rect, color, colors.black, borderSize, p);
             });
         };
     };

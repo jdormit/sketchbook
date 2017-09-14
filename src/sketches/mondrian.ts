@@ -27,6 +27,7 @@ type SubdivisionType = "HORIZONTAL" | "VERTICAL" | "BOTH";
 
 const MIN_SIZE = 50;
 const SUBDIVISION_FACTOR = 0.75;
+const BORDER_SIZE = 10;
 
 const createRect = (
     x: number,
@@ -44,14 +45,17 @@ const renderRect = (
     borderSize: number,
     p: any
 ) => {
-    //    p.stroke(borderColor);
-    //    p.fill(borderColor);
-    //    p.rect(rect.x, rect.y, rect.width, rect.height);
-    //    p.stroke(fillColor);
-    //    p.fill(fillColor);
-    //    p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - (2 * borderSize), rect.height - (2 * borderSize));
-    p.fill(fillColor);
+    p.stroke(borderColor);
+    p.fill(borderColor);
     p.rect(rect.x, rect.y, rect.width, rect.height);
+    p.stroke(fillColor);
+    p.fill(fillColor);
+    p.rect(
+        rect.x + borderSize,
+        rect.y + borderSize,
+        rect.width - 2 * borderSize,
+        rect.height - 2 * borderSize
+    );
 };
 
 export default (seed: string) => {
@@ -196,11 +200,19 @@ export default (seed: string) => {
             console.log("Seed: " + seed);
             createMainCanvas(p);
             p.noLoop();
-            p.background(colors.white);
+            p.background(colors.black);
         };
 
         p.draw = () => {
-            const rects = subdivideRect(createRect(0, 0, p.width, p.height), 1);
+            const rects = subdivideRect(
+                createRect(
+                    BORDER_SIZE,
+                    BORDER_SIZE,
+                    p.width - BORDER_SIZE * 2,
+                    p.height - BORDER_SIZE * 2
+                ),
+                1
+            );
             for (let rect of rects) {
                 const color = p.random([
                     colors.yellow,
@@ -211,7 +223,7 @@ export default (seed: string) => {
                     colors.white,
                     colors.white
                 ]);
-                renderRect(rect, color, colors.black, 20, p);
+                renderRect(rect, color, colors.black, BORDER_SIZE, p);
             }
         };
     };

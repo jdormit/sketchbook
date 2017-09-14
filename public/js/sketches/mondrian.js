@@ -3,18 +3,17 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
     Object.defineProperty(exports, "__esModule", { value: true });
     var MIN_SIZE = 50;
     var SUBDIVISION_FACTOR = 0.75;
+    var BORDER_SIZE = 10;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };
     var renderRect = function (rect, fillColor, borderColor, borderSize, p) {
-        //    p.stroke(borderColor);
-        //    p.fill(borderColor);
-        //    p.rect(rect.x, rect.y, rect.width, rect.height);
-        //    p.stroke(fillColor);
-        //    p.fill(fillColor);
-        //    p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - (2 * borderSize), rect.height - (2 * borderSize));
-        p.fill(fillColor);
+        p.stroke(borderColor);
+        p.fill(borderColor);
         p.rect(rect.x, rect.y, rect.width, rect.height);
+        p.stroke(fillColor);
+        p.fill(fillColor);
+        p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - 2 * borderSize, rect.height - 2 * borderSize);
     };
     exports.default = function (seed) {
         return function (p) {
@@ -78,10 +77,10 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 console.log("Seed: " + seed);
                 createMainCanvas_1.default(p);
                 p.noLoop();
-                p.background(colors.white);
+                p.background(colors.black);
             };
             p.draw = function () {
-                var rects = subdivideRect(createRect(0, 0, p.width, p.height), 1);
+                var rects = subdivideRect(createRect(BORDER_SIZE, BORDER_SIZE, p.width - BORDER_SIZE * 2, p.height - BORDER_SIZE * 2), 1);
                 for (var _i = 0, rects_1 = rects; _i < rects_1.length; _i++) {
                     var rect = rects_1[_i];
                     var color = p.random([
@@ -93,7 +92,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                         colors.white,
                         colors.white
                     ]);
-                    renderRect(rect, color, colors.black, 20, p);
+                    renderRect(rect, color, colors.black, BORDER_SIZE, p);
                 }
             };
         };

@@ -24,7 +24,8 @@ type SubdivisionType = "HORIZONTAL" | "VERTICAL" | "BOTH";
 
 const MIN_SIZE = 50;
 const SUBDIVISION_FACTOR = 0.75;
-const BORDER_FACTOR = 0.0035;
+const BORDER_SIZE = 10;
+const SMALL_BORDER_THRESHOLD = 512;
 const PERCENT_COLOR = 0.2;
 
 const createRect = (
@@ -198,11 +199,14 @@ export default (seed: string) => {
             console.log("Seed: " + seed);
             createMainCanvas(p);
             p.noLoop();
-            p.background(colors.black);
         };
 
         p.draw = () => {
-            const borderSize = p.displayWidth * BORDER_FACTOR;
+            p.background(colors.black);
+            const borderSize =
+                window.innerWidth < SMALL_BORDER_THRESHOLD
+                    ? BORDER_SIZE / 2
+                    : BORDER_SIZE;
             const rects = subdivideRect(
                 createRect(
                     borderSize,

@@ -3,9 +3,10 @@ const calculateAdjSize = (
     height: number,
     p: any
 ): [number, number] => {
-    const adjWidth = p.windowWidth - 20 < width ? p.windowWidth - 20 : width;
+    const adjWidth =
+        window.innerWidth - 20 < width ? window.innerWidth - 20 : width;
     const adjHeight =
-        p.windowWidth - 20 < width
+        window.innerWidth - 20 < width
             ? Math.floor(height / width * adjWidth)
             : height;
     return [adjWidth, adjHeight];

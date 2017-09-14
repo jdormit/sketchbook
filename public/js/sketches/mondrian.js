@@ -3,7 +3,8 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
     Object.defineProperty(exports, "__esModule", { value: true });
     var MIN_SIZE = 50;
     var SUBDIVISION_FACTOR = 0.75;
-    var BORDER_FACTOR = 0.0035;
+    var BORDER_SIZE = 10;
+    var SMALL_BORDER_THRESHOLD = 512;
     var PERCENT_COLOR = 0.2;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
@@ -78,10 +79,12 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 console.log("Seed: " + seed);
                 createMainCanvas_1.default(p);
                 p.noLoop();
-                p.background(colors.black);
             };
             p.draw = function () {
-                var borderSize = p.displayWidth * BORDER_FACTOR;
+                p.background(colors.black);
+                var borderSize = window.innerWidth < SMALL_BORDER_THRESHOLD
+                    ? BORDER_SIZE / 2
+                    : BORDER_SIZE;
                 var rects = subdivideRect(createRect(borderSize, borderSize, p.width - borderSize * 2, p.height - borderSize * 2), 1);
                 var numColored = Math.floor(rects.length * PERCENT_COLOR);
                 var colorIdxs = [];

@@ -2,8 +2,8 @@ define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var calculateAdjSize = function (width, height, p) {
-        var adjWidth = p.windowWidth - 20 < width ? p.windowWidth - 20 : width;
-        var adjHeight = p.windowWidth - 20 < width
+        var adjWidth = window.innerWidth - 20 < width ? window.innerWidth - 20 : width;
+        var adjHeight = window.innerWidth - 20 < width
             ? Math.floor(height / width * adjWidth)
             : height;
         return [adjWidth, adjHeight];

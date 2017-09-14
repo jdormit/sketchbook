@@ -11,9 +11,6 @@ import createMainCanvas from "../toolbox/createMainCanvas";
   TODO things to improve:
   - Color picking: initially colors should be more likely to be white, with the chance for choosing a particular other
   color increasing the longer that color is not picked
-  - Borders: make borders uniform, don't allow double borders
-  - Subdivision size: disallow tiny subdivided squares while maintaining a reasonable amount of subdivision. Maybe choosing
-  a new width / height for subdivisions on a guassian scale instead of choosing an x/y?
 */
 
 interface Rect {

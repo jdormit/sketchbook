@@ -9,8 +9,9 @@ import createMainCanvas from "../toolbox/createMainCanvas";
   rectangle x pixels smaller, where x is the desired border size.
 
   TODO things to improve:
-  - Color picking: initially colors should be more likely to be white, with the chance for choosing a particular other
-  color increasing the longer that color is not picked
+  - Color picking: I'm thinking about an algorithm where one square is initially selected to be colored, then it
+  traversed the graph of neighbors. Each neighbor has a chance to get colored, that chance starts low but gets higher
+  it its neighbors are not colored
 */
 
 interface Rect {
@@ -26,7 +27,7 @@ const MIN_SIZE = 50;
 const SUBDIVISION_FACTOR = 0.75;
 const BORDER_SIZE = 10;
 const SMALL_BORDER_THRESHOLD = 512;
-const PERCENT_COLOR = 0.2;
+const PERCENT_COLOR = 0.3;
 
 const createRect = (
     x: number,
@@ -216,7 +217,10 @@ export default (seed: string) => {
                 ),
                 1
             );
-            let numColored = Math.floor(rects.length * PERCENT_COLOR);
+            let numColored = Math.ceil(rects.length * PERCENT_COLOR);
+            let numRed = Math.ceil(numColored / 3);
+            let numBlue = Math.ceil(numColored / 3);
+            let numYellow = numColored - numRed - numBlue;
             const colorIdxs: number[] = [];
             while (numColored > 0) {
                 const idx = p.random(rects.map((rect, i) => i));
@@ -228,7 +232,37 @@ export default (seed: string) => {
             rects.forEach((rect, i) => {
                 let color = colors.white;
                 if (colorIdxs.indexOf(i) !== -1) {
-                    color = p.random([colors.yellow, colors.blue, colors.red]);
+                    // There's got to be a better way...
+                    if (numRed > 0 && numYellow > 0 && numBlue > 0) {
+                        color = p.random([
+                            colors.yellow,
+                            colors.blue,
+                            colors.red
+                        ]);
+                    } else if (numRed == 0 && numYellow > 0 && numBlue > 0) {
+                        color = p.random([colors.yellow, colors.blue]);
+                    } else if (numRed > 0 && numYellow == 0 && numBlue > 0) {
+                        color = p.random([colors.blue, colors.red]);
+                    } else if (numRed > 0 && numYellow > 0 && numBlue == 0) {
+                        color = p.random([colors.yellow, colors.red]);
+                    } else if (numRed == 0 && numYellow == 0 && numBlue > 0) {
+                        color = colors.blue;
+                    } else if (numRed == 0 && numYellow > 0 && numBlue == 0) {
+                        color = colors.yellow;
+                    } else if (numRed > 0 && numYellow == 0 && numBlue == 0) {
+                        color = colors.red;
+                    }
+                    switch (color) {
+                        case colors.red:
+                            numRed--;
+                            break;
+                        case colors.yellow:
+                            numYellow--;
+                            break;
+                        case colors.blue:
+                            numBlue--;
+                            break;
+                    }
                 }
                 renderRect(rect, color, colors.black, borderSize, p);
             });

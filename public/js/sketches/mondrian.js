@@ -5,7 +5,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
     var SUBDIVISION_FACTOR = 0.75;
     var BORDER_SIZE = 10;
     var SMALL_BORDER_THRESHOLD = 512;
-    var PERCENT_COLOR = 0.2;
+    var PERCENT_COLOR = 0.3;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
     };
@@ -86,7 +86,10 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                     ? BORDER_SIZE / 2
                     : BORDER_SIZE;
                 var rects = subdivideRect(createRect(borderSize, borderSize, p.width - borderSize * 2, p.height - borderSize * 2), 1);
-                var numColored = Math.floor(rects.length * PERCENT_COLOR);
+                var numColored = Math.ceil(rects.length * PERCENT_COLOR);
+                var numRed = Math.ceil(numColored / 3);
+                var numBlue = Math.ceil(numColored / 3);
+                var numYellow = numColored - numRed - numBlue;
                 var colorIdxs = [];
                 while (numColored > 0) {
                     var idx = p.random(rects.map(function (rect, i) { return i; }));
@@ -98,7 +101,43 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 rects.forEach(function (rect, i) {
                     var color = colors.white;
                     if (colorIdxs.indexOf(i) !== -1) {
-                        color = p.random([colors.yellow, colors.blue, colors.red]);
+                        // There's got to be a better way...
+                        if (numRed > 0 && numYellow > 0 && numBlue > 0) {
+                            color = p.random([
+                                colors.yellow,
+                                colors.blue,
+                                colors.red
+                            ]);
+                        }
+                        else if (numRed == 0 && numYellow > 0 && numBlue > 0) {
+                            color = p.random([colors.yellow, colors.blue]);
+                        }
+                        else if (numRed > 0 && numYellow == 0 && numBlue > 0) {
+                            color = p.random([colors.blue, colors.red]);
+                        }
+                        else if (numRed > 0 && numYellow > 0 && numBlue == 0) {
+                            color = p.random([colors.yellow, colors.red]);
+                        }
+                        else if (numRed == 0 && numYellow == 0 && numBlue > 0) {
+                            color = colors.blue;
+                        }
+                        else if (numRed == 0 && numYellow > 0 && numBlue == 0) {
+                            color = colors.yellow;
+                        }
+                        else if (numRed > 0 && numYellow == 0 && numBlue == 0) {
+                            color = colors.red;
+                        }
+                        switch (color) {
+                            case colors.red:
+                                numRed--;
+                                break;
+                            case colors.yellow:
+                                numYellow--;
+                                break;
+                            case colors.blue:
+                                numBlue--;
+                                break;
+                        }
                     }
                     renderRect(rect, color, colors.black, borderSize, p);
                 });

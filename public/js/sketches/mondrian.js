@@ -1,7 +1,7 @@
 define(["require", "exports", "../toolbox/createMainCanvas"], function (require, exports, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var MIN_SIZE = 30;
+    var MIN_SIZE = 50;
     var SUBDIVISION_FACTOR = 0.75;
     var createRect = function (x, y, width, height) {
         return { x: x, y: y, width: width, height: height };
@@ -31,7 +31,9 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 ]);
                 if (subdivisionType === "HORIZONTAL") {
                     var height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
-                    if (height > rect.height) {
+                    if (height > rect.height ||
+                        height < MIN_SIZE ||
+                        rect.height - height < MIN_SIZE) {
                         // If we get an invalid height, try again
                         return subdivideRect(rect, subdivisionChance);
                     }
@@ -39,7 +41,9 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 }
                 else if (subdivisionType === "VERTICAL") {
                     var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
-                    if (width > rect.width) {
+                    if (width > rect.width ||
+                        width < MIN_SIZE ||
+                        rect.width - width < MIN_SIZE) {
                         // Try again
                         return subdivideRect(rect, subdivisionChance);
                     }
@@ -48,14 +52,19 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 else {
                     var width = Math.max(MIN_SIZE, p.randomGaussian(rect.width / 2, rect.width / 4));
                     var height = Math.max(MIN_SIZE, p.randomGaussian(rect.height / 2, rect.height / 4));
-                    if (width > rect.width || height > rect.height) {
+                    if (width > rect.width ||
+                        height > rect.height ||
+                        width < MIN_SIZE ||
+                        height < MIN_SIZE ||
+                        rect.width - width < MIN_SIZE ||
+                        rect.height - height < MIN_SIZE) {
                         // Try again
                         return subdivideRect(rect, subdivisionChance);
                     }
                     return subdivideRect(createRect(rect.x, rect.y, width, height), subdivisionChance * SUBDIVISION_FACTOR)
                         .concat(subdivideRect(createRect(rect.x + width, rect.y, rect.width - width, height), subdivisionChance * SUBDIVISION_FACTOR))
                         .concat(subdivideRect(createRect(rect.x, rect.y + height, width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR))
-                        .concat(subdivideRect(createRect(rect.x + width, rect.height + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
+                        .concat(subdivideRect(createRect(rect.x + width, rect.y + height, rect.width - width, rect.height - height), subdivisionChance * SUBDIVISION_FACTOR));
                 }
             };
             var colors = {};

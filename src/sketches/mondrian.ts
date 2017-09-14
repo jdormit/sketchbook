@@ -25,7 +25,7 @@ interface Rect {
 
 type SubdivisionType = "HORIZONTAL" | "VERTICAL" | "BOTH";
 
-const MIN_SIZE = 30;
+const MIN_SIZE = 50;
 const SUBDIVISION_FACTOR = 0.75;
 
 const createRect = (
@@ -75,7 +75,11 @@ export default (seed: string) => {
                     MIN_SIZE,
                     p.randomGaussian(rect.height / 2, rect.height / 4)
                 );
-                if (height > rect.height) {
+                if (
+                    height > rect.height ||
+                    height < MIN_SIZE ||
+                    rect.height - height < MIN_SIZE
+                ) {
                     // If we get an invalid height, try again
                     return subdivideRect(rect, subdivisionChance);
                 }
@@ -98,7 +102,11 @@ export default (seed: string) => {
                     MIN_SIZE,
                     p.randomGaussian(rect.width / 2, rect.width / 4)
                 );
-                if (width > rect.width) {
+                if (
+                    width > rect.width ||
+                    width < MIN_SIZE ||
+                    rect.width - width < MIN_SIZE
+                ) {
                     // Try again
                     return subdivideRect(rect, subdivisionChance);
                 }
@@ -125,7 +133,14 @@ export default (seed: string) => {
                     MIN_SIZE,
                     p.randomGaussian(rect.height / 2, rect.height / 4)
                 );
-                if (width > rect.width || height > rect.height) {
+                if (
+                    width > rect.width ||
+                    height > rect.height ||
+                    width < MIN_SIZE ||
+                    height < MIN_SIZE ||
+                    rect.width - width < MIN_SIZE ||
+                    rect.height - height < MIN_SIZE
+                ) {
                     // Try again
                     return subdivideRect(rect, subdivisionChance);
                 }
@@ -159,7 +174,7 @@ export default (seed: string) => {
                         subdivideRect(
                             createRect(
                                 rect.x + width,
-                                rect.height + height,
+                                rect.y + height,
                                 rect.width - width,
                                 rect.height - height
                             ),

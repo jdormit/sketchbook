@@ -20,7 +20,6 @@ define(["require", "exports"], function (require, exports) {
         var cvs = p.createCanvas(adjWidth, adjHeight);
         cvs.elt.id = "mainCanvas";
         p.windowResized = function () {
-            console.log("resizing");
             var _a = calculateAdjSize(width, height, p), adjWidth = _a[0], adjHeight = _a[1];
             if (adjWidth !== p.width || adjHeight !== p.height) {
                 p.resizeCanvas(adjWidth, adjHeight);

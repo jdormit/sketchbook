@@ -1,3 +1,15 @@
+const calculateAdjSize = (
+    width: number,
+    height: number,
+    p: any
+): [number, number] => {
+    const adjWidth = p.windowWidth - 20 < width ? p.windowWidth - 20 : width;
+    const adjHeight =
+        p.windowWidth - 20 < width
+            ? Math.floor(height / width * adjWidth)
+            : height;
+    return [adjWidth, adjHeight];
+};
 export default function createMainCanvas(
     p: any,
     width = 1024,
@@ -7,7 +19,17 @@ export default function createMainCanvas(
     if (maybeCvs && maybeCvs.parentElement) {
         maybeCvs.parentElement.removeChild(maybeCvs);
     }
-    const cvs = p.createCanvas(width, height);
+    const [adjWidth, adjHeight] = calculateAdjSize(width, height, p);
+    console.log(width, height, adjWidth, adjHeight);
+    const cvs = p.createCanvas(adjWidth, adjHeight);
     cvs.elt.id = "mainCanvas";
+
+    p.windowResized = () => {
+        const [adjWidth, adjHeight] = calculateAdjSize(width, height, p);
+        if (adjWidth !== p.width || adjHeight !== p.height) {
+            p.resizeCanvas(adjWidth, adjHeight);
+        }
+    };
+
     return cvs;
 }

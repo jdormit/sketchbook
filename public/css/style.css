@@ -35,6 +35,12 @@ body {
     position: absolute;
 }
 
+@media only screen and (max-width: 620px) {
+    .menu {
+        position: static;
+    }
+}
+
 .menu .menuButton {
     margin-left: 0.5em;
 }

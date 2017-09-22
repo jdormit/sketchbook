@@ -13,9 +13,19 @@ var initSaveButton = function (p5, title) {
     currentSaveFunction = function () { return save(p5, title); };
     $save.addEventListener("click", currentSaveFunction);
 };
-var loadSketchWithSeed = function (seed) {
+var initSeedSpan = function (seed) {
+    var $seed = document.getElementById("seed");
+    $seed.innerHTML = "Seed: " + seed;
+};
+var loadSketch = function (explicitSeed) {
     var $titleSelector = document.getElementById("titleSelector");
     var sketchData = sketches[$titleSelector.selectedIndex];
+    var seed = explicitSeed
+        ? explicitSeed
+        : typeof sketchData.seed === "function"
+            ? sketchData.seed()
+            : sketchData.seed;
+    initSeedSpan(seed);
     require(["./lib/p5", "./sketches/" + sketchData.module], function (p5, sketch) {
         var currentP5 = new p5(sketch.default(seed));
         initSaveButton(currentP5, sketchData.title);
@@ -32,23 +42,12 @@ define(function (require) {
             $titleSelector.add($option);
         });
         $titleSelector.item(0).selected = true;
-        $titleSelector.addEventListener("change", handleSelected);
+        $titleSelector.addEventListener("change", function () { return loadSketch(); });
         return $titleSelector;
-    };
-    var handleSelected = function () {
-        var $selectedOption = $titleSelector.item($titleSelector.selectedIndex);
-        var sketchData = sketches[$titleSelector.selectedIndex];
-        require(["./sketches/" + sketchData.module], function (sketch) {
-            var seed = typeof sketchData.seed === "function"
-                ? sketchData.seed()
-                : sketchData.seed;
-            var currentP5 = new p5(sketch.default(seed));
-            initSaveButton(currentP5, sketchData.title);
-        });
     };
     var $titleSelector = document.getElementById("titleSelector");
     initTitleSelector($titleSelector, sketches);
-    handleSelected();
+    loadSketch();
     var $refresh = document.getElementById("refresh");
-    $refresh.addEventListener("click", handleSelected);
+    $refresh.addEventListener("click", function () { return loadSketch(); });
 });

@@ -49,3 +49,10 @@ body {
     color: #BBB;
     cursor: pointer;
 }
+
+#seed {
+    position: absolute;
+    bottom: 0.5em;
+    left: 0.5em;
+    font-size: 0.9rem;
+}

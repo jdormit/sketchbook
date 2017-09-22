@@ -27,11 +27,22 @@ const initSaveButton = function(p5, title) {
     $save.addEventListener("click", currentSaveFunction);
 };
 
-const loadSketchWithSeed = function(seed: number | string) {
+const initSeedSpan = function(seed: string | number) {
+    const $seed = document.getElementById("seed")!;
+    $seed.innerHTML = `Seed: ${seed}`;
+};
+
+const loadSketch = function(explicitSeed?: number | string) {
     const $titleSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(
         "titleSelector"
     );
     const sketchData = sketches[$titleSelector.selectedIndex];
+    const seed = explicitSeed
+        ? explicitSeed
+        : typeof sketchData.seed === "function"
+          ? sketchData.seed()
+          : sketchData.seed;
+    initSeedSpan(seed);
     require(["./lib/p5", "./sketches/" + sketchData.module], (p5, sketch) => {
         const currentP5 = new p5(sketch.default(seed));
         initSaveButton(currentP5, sketchData.title);
@@ -54,33 +65,16 @@ define(require => {
             $titleSelector.add($option);
         });
         $titleSelector.item(0).selected = true;
-        $titleSelector.addEventListener("change", handleSelected);
+        $titleSelector.addEventListener("change", () => loadSketch());
         return $titleSelector;
-    };
-
-    const handleSelected = () => {
-        const $selectedOption: HTMLOptionElement = $titleSelector.item(
-            $titleSelector.selectedIndex
-        );
-
-        const sketchData = sketches[$titleSelector.selectedIndex];
-
-        require(["./sketches/" + sketchData.module], sketch => {
-            const seed =
-                typeof sketchData.seed === "function"
-                    ? sketchData.seed()
-                    : sketchData.seed;
-            const currentP5 = new p5(sketch.default(seed));
-            initSaveButton(currentP5, sketchData.title);
-        });
     };
 
     const $titleSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(
         "titleSelector"
     );
     initTitleSelector($titleSelector, sketches);
-    handleSelected();
+    loadSketch();
 
     const $refresh = document.getElementById("refresh")!;
-    $refresh.addEventListener("click", handleSelected);
+    $refresh.addEventListener("click", () => loadSketch());
 });

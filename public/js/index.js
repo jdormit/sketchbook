@@ -1,13 +1,24 @@
 var sketches = [
-    { title: "Mondrian I", module: "mondrian", seed: Date.now() },
-    { title: "Splatter", module: "splatter1", seed: Date.now() },
-    { title: "Circles", module: "randomCircles", seed: Date.now() }
+    { title: "Mondrian I", module: "mondrian", seed: function () { return Date.now(); } },
+    { title: "Splatter", module: "splatter1", seed: function () { return Date.now(); } },
+    { title: "Circles", module: "randomCircles", seed: function () { return Date.now(); } }
 ];
+var save = function (p5, title) {
+    p5.save(title);
+};
+var currentSaveFunction;
+var initSaveButton = function (p5, title) {
+    var $save = document.getElementById("save");
+    $save.removeEventListener("click", currentSaveFunction);
+    currentSaveFunction = function () { return save(p5, title); };
+    $save.addEventListener("click", currentSaveFunction);
+};
 var loadSketchWithSeed = function (seed) {
     var $titleSelector = document.getElementById("titleSelector");
     var sketchData = sketches[$titleSelector.selectedIndex];
     require(["./lib/p5", "./sketches/" + sketchData.module], function (p5, sketch) {
-        new p5(sketch.default(seed));
+        var currentP5 = new p5(sketch.default(seed));
+        initSaveButton(currentP5, sketchData.title);
     });
 };
 define(function (require) {
@@ -28,10 +39,16 @@ define(function (require) {
         var $selectedOption = $titleSelector.item($titleSelector.selectedIndex);
         var sketchData = sketches[$titleSelector.selectedIndex];
         require(["./sketches/" + sketchData.module], function (sketch) {
-            var myP5 = new p5(sketch.default(sketchData.seed));
+            var seed = typeof sketchData.seed === "function"
+                ? sketchData.seed()
+                : sketchData.seed;
+            var currentP5 = new p5(sketch.default(seed));
+            initSaveButton(currentP5, sketchData.title);
         });
     };
     var $titleSelector = document.getElementById("titleSelector");
     initTitleSelector($titleSelector, sketches);
     handleSelected();
+    var $refresh = document.getElementById("refresh");
+    $refresh.addEventListener("click", handleSelected);
 });

@@ -6,7 +6,7 @@
 body {
     text-align: center;
     font-family: "Palatino", "Time New Roman", serif;
-    color: #333;
+    color: #525252;
 }
 
 .titleSelector {
@@ -29,4 +29,17 @@ body {
     margin: auto;
     margin-top: 1.5em;
     box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.menu {
+    position: absolute;
+}
+
+.menu .menuButton {
+    margin-left: 0.5em;
+}
+
+.menu .menuButton:hover {
+    color: #BBB;
+    cursor: pointer;
 }

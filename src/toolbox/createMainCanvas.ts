@@ -21,7 +21,6 @@ export default function createMainCanvas(
         maybeCvs.parentElement.removeChild(maybeCvs);
     }
     const [adjWidth, adjHeight] = calculateAdjSize(width, height, p);
-    console.log(width, height, adjWidth, adjHeight);
     const cvs = p.createCanvas(adjWidth, adjHeight);
     cvs.elt.id = "mainCanvas";
 

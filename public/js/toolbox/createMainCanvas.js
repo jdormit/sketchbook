@@ -16,7 +16,6 @@ define(["require", "exports"], function (require, exports) {
             maybeCvs.parentElement.removeChild(maybeCvs);
         }
         var _a = calculateAdjSize(width, height, p), adjWidth = _a[0], adjHeight = _a[1];
-        console.log(width, height, adjWidth, adjHeight);
         var cvs = p.createCanvas(adjWidth, adjHeight);
         cvs.elt.id = "mainCanvas";
         p.windowResized = function () {

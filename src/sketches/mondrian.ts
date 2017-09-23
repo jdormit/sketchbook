@@ -197,7 +197,6 @@ export default (seed: string) => {
             colors.white = p.color("hsl(60, 4%, 91%)");
 
             p.randomSeed(seed);
-            console.log("Seed: " + seed);
             createMainCanvas(p);
             p.noLoop();
         };

@@ -76,7 +76,6 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
                 colors.black = p.color("hsl(140, 60%, 6%)");
                 colors.white = p.color("hsl(60, 4%, 91%)");
                 p.randomSeed(seed);
-                console.log("Seed: " + seed);
                 createMainCanvas_1.default(p);
                 p.noLoop();
             };

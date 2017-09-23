@@ -56,3 +56,25 @@ body {
     left: 0.5em;
     font-size: 0.9rem;
 }
+
+.listHolder {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 256px;
+    box-shadow: 1px 0px 5px 6px #ccc;
+    z-index: 5;
+    background: white;
+}
+
+#closeList {
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+}
+
+#closeList:hover {
+    color: #BBB;
+    cursor: pointer;
+}

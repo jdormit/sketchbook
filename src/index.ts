@@ -32,6 +32,16 @@ const initSeedSpan = function(seed: string | number) {
     $seed.innerHTML = `Seed: ${seed}`;
 };
 
+const initSketchList = function() {
+    const $sketchList = document.getElementById("sketchList")!;
+    for (const sketch of sketches) {
+        const $text = document.createTextNode(sketch.title);
+        const $li = document.createElement("li");
+        $li.appendChild($text);
+        $sketchList.appendChild($li);
+    }
+};
+
 const loadSketch = function(explicitSeed?: number | string) {
     const $titleSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(
         "titleSelector"
@@ -73,6 +83,7 @@ define(require => {
         "titleSelector"
     );
     initTitleSelector($titleSelector, sketches);
+    initSketchList();
     loadSketch();
 
     const $refresh = document.getElementById("refresh")!;

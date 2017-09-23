@@ -17,6 +17,16 @@ var initSeedSpan = function (seed) {
     var $seed = document.getElementById("seed");
     $seed.innerHTML = "Seed: " + seed;
 };
+var initSketchList = function () {
+    var $sketchList = document.getElementById("sketchList");
+    for (var _i = 0, sketches_1 = sketches; _i < sketches_1.length; _i++) {
+        var sketch = sketches_1[_i];
+        var $text = document.createTextNode(sketch.title);
+        var $li = document.createElement("li");
+        $li.appendChild($text);
+        $sketchList.appendChild($li);
+    }
+};
 var loadSketch = function (explicitSeed) {
     var $titleSelector = document.getElementById("titleSelector");
     var sketchData = sketches[$titleSelector.selectedIndex];
@@ -47,6 +57,7 @@ define(function (require) {
     };
     var $titleSelector = document.getElementById("titleSelector");
     initTitleSelector($titleSelector, sketches);
+    initSketchList();
     loadSketch();
     var $refresh = document.getElementById("refresh");
     $refresh.addEventListener("click", function () { return loadSketch(); });

@@ -7,8 +7,9 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
     </head>
     <body>
-        <div class="listHolder">
+        <div id="listHolder" class="listHolder">
             <i id="closeList" class="fa fa-3x fa-times"></i>
+            <h2>Sketches</h2>
             <ul id="sketchList"></ul>
         </div>
         <div class="menu">
@@ -16,7 +17,7 @@
             <i id="save" class="menuButton fa fa-3x fa-camera-retro"></i>
             <i id="refresh" class="menuButton fa fa-3x fa-refresh"></i>
         </div>
-        <select id="titleSelector" class="titleSelector"></select>
+        <h1 id="title" class="title"></h1>
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript">
          require.config({

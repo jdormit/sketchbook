@@ -62,8 +62,13 @@ const loadSketch = function(
           : sketchData.seed;
     initSeedSpan(seed);
     initTitle(sketchData.title);
-    require(["./lib/p5", "./sketches/" + sketchData.module], (p5, sketch) => {
-        const currentP5 = new p5(sketch.default(seed));
+    require([
+        "./lib/p5",
+        "./toolbox/hashCode",
+        "./sketches/" + sketchData.module
+    ], (p5, hash, sketch) => {
+        const seedNum = typeof seed === "number" ? seed : hash.default(seed);
+        const currentP5 = new p5(sketch.default(seedNum));
         initSaveButton(currentP5, sketchData.title);
     });
 };

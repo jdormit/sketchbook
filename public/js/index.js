@@ -40,8 +40,13 @@ var loadSketch = function (sketchData, explicitSeed) {
             : sketchData.seed;
     initSeedSpan(seed);
     initTitle(sketchData.title);
-    require(["./lib/p5", "./sketches/" + sketchData.module], function (p5, sketch) {
-        var currentP5 = new p5(sketch.default(seed));
+    require([
+        "./lib/p5",
+        "./toolbox/hashCode",
+        "./sketches/" + sketchData.module
+    ], function (p5, hash, sketch) {
+        var seedNum = typeof seed === "number" ? seed : hash.default(seed);
+        var currentP5 = new p5(sketch.default(seedNum));
         initSaveButton(currentP5, sketchData.title);
     });
 };

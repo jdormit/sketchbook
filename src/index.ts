@@ -3,24 +3,32 @@ interface SeedFunction {
 }
 
 interface Sketch {
+    (seed: number): p5.Sketch;
+}
+
+interface SketchModule {
+    default: Sketch;
+}
+
+interface SketchData {
     title: string;
     module: string;
     seed: string | number | SeedFunction;
 }
 
-const sketches: Sketch[] = [
+const sketches: SketchData[] = [
     { title: "Mondrian I", module: "mondrian", seed: () => Date.now() },
     { title: "Splatter", module: "splatter1", seed: () => Date.now() },
     { title: "Circles", module: "randomCircles", seed: () => Date.now() }
 ];
 
-const save = function(p5: any, title: string) {
+const save = function(p5: p5.P5, title: string) {
     p5.save(title);
 };
 
 let currentSaveFunction;
 
-const initSaveButton = function(p5, title) {
+const initSaveButton = function(p5: p5.P5, title: string) {
     const $save = document.getElementById("save")!;
     $save.removeEventListener("click", currentSaveFunction);
     currentSaveFunction = () => save(p5, title);
@@ -48,10 +56,10 @@ const hideSketchList = function() {
     $listHolder.style.display = "none";
 };
 
-let currentSketch: Sketch = sketches[0];
+let currentSketch: SketchData = sketches[0];
 
 const loadSketch = function(
-    sketchData: Sketch,
+    sketchData: SketchData,
     explicitSeed?: number | string
 ) {
     currentSketch = sketchData;
@@ -66,9 +74,9 @@ const loadSketch = function(
         "./lib/p5",
         "./toolbox/hashCode",
         "./sketches/" + sketchData.module
-    ], (p5, hash, sketch) => {
+    ], (p5, hash, sketch: SketchModule) => {
         const seedNum = typeof seed === "number" ? seed : hash.default(seed);
-        const currentP5 = new p5(sketch.default(seedNum));
+        const currentP5: p5.P5 = new p5(sketch.default(seedNum));
         initSaveButton(currentP5, sketchData.title);
     });
 };

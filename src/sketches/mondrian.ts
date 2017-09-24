@@ -40,10 +40,10 @@ const createRect = (
 
 const renderRect = (
     rect: Rect,
-    fillColor: any,
-    borderColor: any,
+    fillColor: p5.Color,
+    borderColor: p5.Color,
     borderSize: number,
-    p: any
+    p: p5.P5
 ) => {
     p.stroke(borderColor);
     p.fill(borderColor);
@@ -58,7 +58,7 @@ const renderRect = (
     );
 };
 
-export default (seed: string) => {
+const mondrian: Sketch = seed => {
     return p => {
         const subdivideRect = (
             rect: Rect,
@@ -69,7 +69,7 @@ export default (seed: string) => {
             if (!shouldSubdivide) {
                 return [rect];
             }
-            const subdivisionType: SubdivisionType = p.random([
+            const subdivisionType: SubdivisionType = <SubdivisionType>p.random([
                 "HORIZONTAL",
                 "VERTICAL",
                 "BOTH"
@@ -268,3 +268,5 @@ export default (seed: string) => {
         };
     };
 };
+
+export default mondrian;

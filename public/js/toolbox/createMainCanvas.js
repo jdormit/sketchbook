@@ -11,6 +11,7 @@ define(["require", "exports"], function (require, exports) {
     function createMainCanvas(p, width, height) {
         if (width === void 0) { width = 1024; }
         if (height === void 0) { height = 768; }
+        // TODO define p5.canvas
         var maybeCvs = document.getElementById("mainCanvas");
         if (maybeCvs && maybeCvs.parentElement) {
             maybeCvs.parentElement.removeChild(maybeCvs);

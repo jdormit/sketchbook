@@ -1,6 +1,6 @@
 import createMainCanvas from "../toolbox/createMainCanvas";
 
-export default function randomCircles(seed: string) {
+const randomCircles: Sketch = seed => {
     return p => {
         p.setup = () => {
             p.noLoop();
@@ -18,4 +18,6 @@ export default function randomCircles(seed: string) {
             }
         };
     };
-}
+};
+
+export default randomCircles;

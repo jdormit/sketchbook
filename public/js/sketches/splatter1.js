@@ -1,7 +1,7 @@
 define(["require", "exports", "../lib/p5", "../toolbox/createMainCanvas"], function (require, exports, p5, createMainCanvas_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function splatter1(seed) {
+    var splatter1 = function (seed) {
         return function (p) {
             var debounce = false;
             p.setup = function () {
@@ -28,6 +28,6 @@ define(["require", "exports", "../lib/p5", "../toolbox/createMainCanvas"], funct
                 }
             };
         };
-    }
+    };
     exports.default = splatter1;
 });

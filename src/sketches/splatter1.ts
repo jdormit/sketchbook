@@ -1,7 +1,7 @@
 import * as p5 from "../lib/p5";
 import createMainCanvas from "../toolbox/createMainCanvas";
 
-export default function splatter1(seed: string) {
+const splatter1: Sketch = seed => {
     return p => {
         let debounce = false;
 
@@ -30,4 +30,6 @@ export default function splatter1(seed: string) {
             }
         };
     };
-}
+};
+
+export default splatter1;

@@ -17,7 +17,7 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
         p.fill(fillColor);
         p.rect(rect.x + borderSize, rect.y + borderSize, rect.width - 2 * borderSize, rect.height - 2 * borderSize);
     };
-    exports.default = function (seed) {
+    var mondrian = function (seed) {
         return function (p) {
             var subdivideRect = function (rect, subdivisionChance) {
                 var rand = p.random();
@@ -143,4 +143,5 @@ define(["require", "exports", "../toolbox/createMainCanvas"], function (require,
             };
         };
     };
+    exports.default = mondrian;
 });
